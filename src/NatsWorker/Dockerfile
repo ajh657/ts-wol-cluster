@@ -1,11 +1,11 @@
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["NatsWorker.csproj", "."]
 RUN dotnet restore
 COPY . .
-RUN dotnet publish "NatsWorker.csproj" -c Release -o /app/publish --no-restore
+RUN dotnet publish "NatsWorker.csproj" -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/runtime:9.0 AS final
+FROM mcr.microsoft.com/dotnet/runtime:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
 ENTRYPOINT ["dotnet", "NatsWorker.dll"]
