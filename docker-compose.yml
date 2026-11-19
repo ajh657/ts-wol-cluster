@@ -1,0 +1,15 @@
+services:
+  nats:
+    image: nats:2.12-alpine
+    command: ["-p", "4222", "-m", "8222"]
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+
+  nats-worker:
+    build:
+      context: ./src/NatsWorker
+    environment:
+      NATS_URL: nats://nats:4222
+    depends_on:
+      - nats
